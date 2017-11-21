@@ -8,6 +8,9 @@
 
 #include "bloblist.h"
 
+#include <QFile>
+#include <QTextStream>
+
 nblobs* BlobList::SortbyPaper(const int th)
 {
 	m_bypaper.clear();
@@ -176,7 +179,10 @@ void BlobList::SetBlobs(const MyLabel &label, const int th)
 
 void BlobList::SetBlobs(const char *name)
 {
-	std::ifstream in(name);
+    QFile in_file(name);
+    if(!in_file.open(QIODevice::ReadOnly | QIODevice::Text))
+        qFatal("Cannot open file %s", name);
+    QTextStream in(&in_file);
 	
 	int num;
 	in >> num;
@@ -196,7 +202,7 @@ void BlobList::SetBlobs(const char *name)
 
 	}
 
-	in.close();
+    in_file.close();
 }
 
 void BlobList::Init(const int iw, const int ih, const int windowsize)
