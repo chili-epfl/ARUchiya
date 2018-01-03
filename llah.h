@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include <QTextStream>
+
 #include "mylib/myimage.h"
 #include "mylib/mymat.h"
 #include "mylib/mylabel.h"
@@ -29,7 +31,7 @@ class LLAH
 public:
 
 	void SetHash(Paper* paper, const eblobs *blobs);
-	void AddPaper(const char *name);
+    void AddPaper(QTextStream& in);
 
 	visible* GetVisiblePaper();
 	void UpdateTracking(Paper* paper, const double repro);

@@ -15,6 +15,9 @@
 #include <list>
 #include <fstream>
 
+#include <QTextStream>
+#include <QString>
+
 #include "mylib/mylabel.h"
 #include "blob.h"
 #include "window.h"
@@ -34,7 +37,7 @@ public:
 	void CheckLength(const int num);
 	blob* GetBlob(const int labelnum);
 	void SetBlobs(const MyLabel &label, const int th = 3);
-	void SetBlobs(const char *name);
+    void SetBlobs(QTextStream &in);
 	void Init(const int iw, const int ih, const int windowsize = 10);
 
 private:

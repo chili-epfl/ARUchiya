@@ -177,15 +177,10 @@ void BlobList::SetBlobs(const MyLabel &label, const int th)
 	}
 }
 
-void BlobList::SetBlobs(const char *name)
+void BlobList::SetBlobs(QTextStream &in)
 {
-    QFile in_file(name);
-    if(!in_file.open(QIODevice::ReadOnly | QIODevice::Text))
-        qFatal("Cannot open file %s", name);
-    QTextStream in(&in_file);
-	
 	int num;
-	in >> num;
+    in >> num;
 
 	CheckLength(num);
 
@@ -200,9 +195,7 @@ void BlobList::SetBlobs(const char *name)
 
 		m_extracted.push_back(&m_blobs[i]);
 
-	}
-
-    in_file.close();
+    }
 }
 
 void BlobList::Init(const int iw, const int ih, const int windowsize)

@@ -21,9 +21,9 @@ void LLAH::SetHash(Paper* paper, const eblobs *blobs)
 	}
 }
 
-void LLAH::AddPaper(const char *name)
+void LLAH::AddPaper(QTextStream& in)
 {
-	m_bloblist.SetBlobs(name);
+    m_bloblist.SetBlobs(in);
 
 	eblobs *blobs = m_bloblist.GetExtracted();
 
