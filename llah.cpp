@@ -252,8 +252,10 @@ void LLAH::SetPts()
 
 void LLAH::Extract(const MyImage &src)
 {
-	m_gray.ColortoGray(src);
-	m_binary.Binarization(m_gray);
+    //m_gray.ColortoGray(src);
+    //m_binary.Binarization(m_gray);
+
+    m_binary.ColortoGray(src);
 }
 
 void LLAH::Init(const int iw, const int ih)
