@@ -10,6 +10,24 @@
 #include "opencv2/features2d.hpp"
 #include <stdio.h>
 
+// convert keypoint to x + w * y integer
+int MyLabel::kp_to_int(cv::KeyPoint pt)
+{
+    // obtaining position, +0.5 for proper rounding
+    double position = pt.pt.x + w * (int) (pt.pt.y + 0.5);
+
+    // to int
+    int position_int = position + 0.5;
+
+    return position_int;
+}
+
+// compare two keypoints
+bool MyLabel::operator()(cv::KeyPoint a, cv::KeyPoint b)
+{
+    return kp_to_int(a) < kp_to_int(b);
+}
+
 void MyLabel::Labeling(std::vector<cv::KeyPoint> points)
 {
     // zeroing labels
@@ -21,22 +39,25 @@ void MyLabel::Labeling(std::vector<cv::KeyPoint> points)
     // label name
     num = 0;
 
+    // sorting keypoints by their future position in m_label
+    std::sort(points.begin(), points.end(), *this);
+
     for(it = points.begin(); it != points.end(); it++)
     {
         // obtaining single KeyPointcd
         cv::KeyPoint pt = *it;
 
-        // obtaining position, +0.5 for proper rounding
-        double position = pt.pt.x + w * (int) (pt.pt.y + 0.5);
-
-        // to int
-        int position_int = position + 0.5;
+        // obtaining kp index in m_label
+        int position_int = kp_to_int(pt);
 
         // setting label to this position
         m_label[position_int] = ++num;
 
         //fprintf(stderr, "Setting to value %d num %d %.2f %.2f of %d %d\n", position_int, num, pt.pt.x, pt.pt.y, w, h);
     }
+
+    //num--;
+    //Print();
 }
 
 void MyLabel::Labeling(const char *binary)
@@ -149,6 +170,8 @@ void MyLabel::Labeling(const char *binary)
 			}
 		}
 	}
+
+    //Print();
 }
 
 void MyLabel::Print()

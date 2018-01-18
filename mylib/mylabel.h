@@ -31,6 +31,12 @@ public:
 	int w, h;
     int num;
     void Print();
+
+    // convert keypoint to x + w * y
+    int kp_to_int(cv::KeyPoint pt);
+
+    // compare two keypoints
+    bool operator ()(cv::KeyPoint a, cv::KeyPoint b);
 };
 
 
