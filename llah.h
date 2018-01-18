@@ -51,9 +51,8 @@ public:
 	void DrawBinary(MyImage &dst) const;
 	void DrawPts(MyImage &dst) const;
 
+    void SetPts(std::vector<cv::KeyPoint> points);
 private:
-	MyImage m_gray;
-	MyImage m_binary;
 	MyLabel m_label;
 	LLAHParam m_param;
 	BlobList m_bloblist;
@@ -61,6 +60,9 @@ private:
 	HashTable m_trackingtable;
 	PaperList m_paperlist;
 	visible m_visible;
+    int h, w;
+    MyImage m_gray;
+    MyImage m_binary;
 };
 
 #endif

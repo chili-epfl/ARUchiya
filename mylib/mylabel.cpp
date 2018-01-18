@@ -7,6 +7,37 @@
 */
 
 #include "mylabel.h"
+#include "opencv2/features2d.hpp"
+#include <stdio.h>
+
+void MyLabel::Labeling(std::vector<cv::KeyPoint> points)
+{
+    // zeroing labels
+    memset(&m_label[0],0,sizeof(int)*w*h);
+
+    // going through points
+    std::vector<cv::KeyPoint>::iterator it;
+
+    // label name
+    num = 0;
+
+    for(it = points.begin(); it != points.end(); it++)
+    {
+        // obtaining single KeyPointcd
+        cv::KeyPoint pt = *it;
+
+        // obtaining position, +0.5 for proper rounding
+        double position = pt.pt.x + w * (int) (pt.pt.y + 0.5);
+
+        // to int
+        int position_int = position + 0.5;
+
+        // setting label to this position
+        m_label[position_int] = ++num;
+
+        //fprintf(stderr, "Setting to value %d num %d %.2f %.2f of %d %d\n", position_int, num, pt.pt.x, pt.pt.y, w, h);
+    }
+}
 
 void MyLabel::Labeling(const char *binary)
 {
@@ -110,7 +141,7 @@ void MyLabel::Labeling(const char *binary)
 
 	num++;
 
-	for(int x=1;x<w-1;x++){
+    for(int x=1;x<w-1;x++){
 		for(int y=1;y<h-1;y++){
 			int pos = x+w*y;
 			if(m_label[pos] != 0){
@@ -120,12 +151,26 @@ void MyLabel::Labeling(const char *binary)
 	}
 }
 
+void MyLabel::Print()
+{
+    fprintf(stderr, "num=%d\n", num);
+
+    for(int j = 0; j < h; j++)
+    {
+        for(int i = 0; i < w; i++)
+        {
+            int pos = i + w * j;
+            fprintf(stderr, "%x", m_label[pos]);
+        }
+        fprintf(stderr, "\n");
+    }
+}
+
 void MyLabel::Init(const int iw, const int ih)
 {
 	w=iw, h=ih;
 	m_label.resize(w*h);
 	memset(&m_label[0],0,sizeof(int)*w*h);
-
 }
 
 int& MyLabel::operator() (const int x, const int y)

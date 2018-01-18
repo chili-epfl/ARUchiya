@@ -11,11 +11,14 @@
 
 #include <cstring>
 #include <vector>
+#include "opencv2/features2d.hpp"
+#include <vector>
 
 class MyLabel
 {
 public:
 	void Labeling(const char *binary);
+    void Labeling(std::vector<cv::KeyPoint> points);
 	void Init(const int iw, const int ih);
 
 	int& operator() (const int x, const int y); 
@@ -26,7 +29,8 @@ private:
 
 public:
 	int w, h;
-	int num;
+    int num;
+    void Print();
 };
 
 

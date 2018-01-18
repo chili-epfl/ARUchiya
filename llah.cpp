@@ -246,34 +246,31 @@ void LLAH::CoordinateTransform(const double h)
 
 void LLAH::SetPts()
 {
-	m_label.Labeling(m_binary);
-	m_bloblist.SetBlobs(m_label);
+    m_label.Labeling(m_binary);
+    m_bloblist.SetBlobs(m_label);
 }
 
 void LLAH::Extract(const MyImage &src)
 {
-    //m_gray.ColortoGray(src);
-    //m_binary.Binarization(m_gray);
+    m_gray.ColortoGray(src);
+    m_binary.Binarization(m_gray);
+}
 
-    m_binary.ColortoGray(src);
+void LLAH::SetPts(std::vector<cv::KeyPoint> points)
+{
+    m_label.Labeling(points);
+    m_bloblist.SetBlobs(m_label);
 }
 
 void LLAH::Init(const int iw, const int ih)
 {
-	m_gray.Init(iw,ih,1);
-	m_binary.Init(iw,ih,1);
+    h = ih;
+    w = iw;
+    m_gray.Init(iw,ih,1);
+    m_binary.Init(iw,ih,1);
+
 	m_label.Init(iw,ih);
 	m_bloblist.Init(iw,ih,10);
-}
-
-void LLAH::DrawBinary(MyImage &dst) const
-{
-	MyImage tmp;
-	tmp.Init(m_binary.w, m_binary.h, 3);
-
-	tmp.GraytoColor(m_binary);
-	dst.Resize(tmp);
-
 }
 
 void LLAH::DrawPts(MyImage &dst) const

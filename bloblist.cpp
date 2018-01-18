@@ -162,7 +162,7 @@ void BlobList::SetBlobs(const MyLabel &label, const int th)
 	}
 
 	for(int i=0;i<label.num;i++){
-		if(m_blobs[i].sum > th){
+        if(m_blobs[i].sum > th){
 
 			m_blobs[i].rawx = static_cast<float>(m_blobs[i].sumx) / static_cast<float>(m_blobs[i].sum);
 			m_blobs[i].rawy = static_cast<float>(m_blobs[i].sumy) / static_cast<float>(m_blobs[i].sum);
@@ -173,7 +173,7 @@ void BlobList::SetBlobs(const MyLabel &label, const int th)
 			m_windows.Add(m_blobs[i].idxy.x, m_blobs[i].idxy.y, &m_blobs[i]);
 
 			m_extracted.push_back(&m_blobs[i]);
-		}
+        }
 	}
 }
 
