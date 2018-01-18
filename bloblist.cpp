@@ -7,6 +7,8 @@
 */
 
 #include "bloblist.h"
+#include "opencv2/features2d.hpp"
+#include <vector>
 
 #include <QFile>
 #include <QTextStream>
@@ -129,7 +131,7 @@ void BlobList::CheckLength(const int num)
 		m_blobs.resize(num+num/2);
 	}
 
-	for(int i=0;i<num;i++){
+    for(int i=0;i<m_blobs.size();i++){
 		m_blobs[i].Clear();
 	}
 
@@ -144,6 +146,45 @@ blob* BlobList::GetBlob(const int labelnum)
 	}
 
 	return &m_blobs[labelnum-1];
+}
+
+void BlobList::SetBlobsKeyPoints(MyLabel &label)
+{
+    std::vector<cv::KeyPoint>::iterator it;
+    int i = 0;
+
+    CheckLength(label.kps.size());
+
+    for(it = label.kps.begin(); it != label.kps.end() && i < (int) m_blobs.size(); it++, i++)
+    {
+        cv::KeyPoint kp = *it;
+        m_blobs[i].rawx = kp.pt.x;
+        m_blobs[i].rawy = kp.pt.y;
+
+        m_blobs[i].sumx = kp.pt.x * 10;
+        m_blobs[i].sumy = kp.pt.y * 10;
+        m_blobs[i].sum = 10;
+
+        m_blobs[i].idxy.x = static_cast<int>(m_blobs[i].rawx) / m_windows.size;
+        m_blobs[i].idxy.y = static_cast<int>(m_blobs[i].rawy) / m_windows.size;
+
+        m_windows.Add(m_blobs[i].idxy.x, m_blobs[i].idxy.y, &m_blobs[i]);
+
+        m_extracted.push_back(&m_blobs[i]);
+    }
+
+    Print();
+}
+
+void BlobList::Print()
+{
+    for(int i = 0; i < m_blobs.size(); i++)
+    {
+        if(m_blobs[i].rawx > 0)
+        {
+            fprintf(stderr, "Blob at %.2fx%.2f: %x\n", m_blobs[i].rawx, m_blobs[i].rawy, i);
+        }
+    }
 }
 
 void BlobList::SetBlobs(const MyLabel &label, const int th)
@@ -161,7 +202,7 @@ void BlobList::SetBlobs(const MyLabel &label, const int th)
 		}
 	}
 
-	for(int i=0;i<label.num;i++){
+    for(int i=0;i<label.num;i++){
         if(m_blobs[i].sum > th){
 
 			m_blobs[i].rawx = static_cast<float>(m_blobs[i].sumx) / static_cast<float>(m_blobs[i].sum);
@@ -175,6 +216,8 @@ void BlobList::SetBlobs(const MyLabel &label, const int th)
 			m_extracted.push_back(&m_blobs[i]);
         }
 	}
+
+    //Print();
 }
 
 void BlobList::SetBlobs(QTextStream &in)

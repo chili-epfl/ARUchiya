@@ -35,7 +35,7 @@ public:
 
 	visible* GetVisiblePaper();
 	void UpdateTracking(Paper* paper, const double repro);
-    bool FindPaper(const int min, const double repro=10.0);
+    bool FindPaper(const int min, const double repro=5.0);
 
 	double ComputeAffine(const blob *target, const combi &nm, const combi &mk) const;
 	unsigned ComputeIndex(const blob *target, const combi &nm) const;

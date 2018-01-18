@@ -26,7 +26,6 @@ public:
 
 private:
 	std::vector<int> m_label;
-
 public:
 	int w, h;
     int num;
@@ -37,6 +36,9 @@ public:
 
     // compare two keypoints
     bool operator ()(cv::KeyPoint a, cv::KeyPoint b);
+
+    // last keypoint array
+    std::vector<cv::KeyPoint> kps;
 };
 
 

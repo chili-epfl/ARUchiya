@@ -259,7 +259,7 @@ void LLAH::Extract(const MyImage &src)
 void LLAH::SetPts(std::vector<cv::KeyPoint> points)
 {
     m_label.Labeling(points);
-    m_bloblist.SetBlobs(m_label);
+    m_bloblist.SetBlobsKeyPoints(m_label);
 }
 
 void LLAH::Init(const int iw, const int ih)

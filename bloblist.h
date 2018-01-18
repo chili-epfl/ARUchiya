@@ -36,10 +36,14 @@ public:
 	const eblobs* GetExtracted() const;	
 	void CheckLength(const int num);
 	blob* GetBlob(const int labelnum);
-    void SetBlobs(const MyLabel &label, const int th = 0);
+    void SetBlobs(const MyLabel &label, const int th = 3);
     void SetBlobs(QTextStream &in);
+
+    // set blobs from list
+    void SetBlobsKeyPoints(MyLabel &label);
 	void Init(const int iw, const int ih, const int windowsize = 10);
 
+    void Print();
 private:
 	nblobs m_bynum;
 	pblobs m_bypaper;
