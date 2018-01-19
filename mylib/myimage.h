@@ -38,7 +38,7 @@ public:
 	operator const IplImage* () const;
 	operator IplImage* ();
 
-private:
+public:
 	IplImage* m_img;
 
 public:
