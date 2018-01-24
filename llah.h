@@ -52,6 +52,10 @@ public:
 	void DrawPts(MyImage &dst) const;
 
     void SetPts(std::vector<cv::KeyPoint> points);
+
+    // returns image coordinates of dots
+    // which belong to markers
+    QVector<QVector2D> foundDots();
 private:
 	MyLabel m_label;
 	LLAHParam m_param;

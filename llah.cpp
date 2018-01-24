@@ -7,6 +7,8 @@
 */
 
 #include "llah.h"
+#include <QVector>
+#include <QVector2D>
 
 void LLAH::SetHash(Paper* paper, const eblobs *blobs)
 {
@@ -273,13 +275,32 @@ void LLAH::Init(const int iw, const int ih)
 	m_bloblist.Init(iw,ih,10);
 }
 
+QVector<QVector2D> LLAH::foundDots()
+{
+    // resulting QVector
+    QVector<QVector2D> result;
+
+    // copied from LLAH::DrawPts
+    const eblobs *blobs = m_bloblist.GetExtracted();
+    eblobs::const_iterator it;
+
+    // loop over all blobs
+    for(it = blobs->begin(); it != blobs->end(); it++)
+        if((*it)->found)
+            // adding found blobs
+            result.append(QVector2D((*it)->rawx, (*it)->rawy));
+
+    // resulting QVector
+    return result;
+}
+
 void LLAH::DrawPts(MyImage &dst) const
 {
 	const eblobs *blobs = m_bloblist.GetExtracted();
 
 	for(eblobs::const_iterator itbl=(*blobs).begin();itbl!=(*blobs).end();++itbl){
 		if((*itbl)->found){
-			dst.Circle(static_cast<int>((*itbl)->rawx), static_cast<int>((*itbl)->rawy), 3, -1, 0,255);
+            dst.Circle(static_cast<int>((*itbl)->rawx), static_cast<int>((*itbl)->rawy), 3, -1, 0,255);
 		}
 		else{
 			dst.Circle(static_cast<int>((*itbl)->rawx), static_cast<int>((*itbl)->rawy), 3, -1, 255);
