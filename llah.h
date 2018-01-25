@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include <QTextStream>
+#include <QImage>
 
 #include "mylib/myimage.h"
 #include "mylib/mymat.h"
@@ -45,6 +46,7 @@ public:
 
 	void CoordinateTransform(const double h);
 	void SetPts();
+    void Extract(const QImage &img);
 	void Extract(const MyImage &src);
 	void Init(const int iw, const int ih);
 

@@ -9,6 +9,7 @@
 #include "llah.h"
 #include <QVector>
 #include <QVector2D>
+#include <QImage>
 
 void LLAH::SetHash(Paper* paper, const eblobs *blobs)
 {
@@ -250,6 +251,12 @@ void LLAH::SetPts()
 {
     m_label.Labeling(m_binary);
     m_bloblist.SetBlobs(m_label);
+}
+
+void LLAH::Extract(const QImage &img)
+{
+    // QImage img -> cv::m_binary
+    memcpy(m_binary.m_img->imageData, img.bits(), img.width() * img.height());
 }
 
 void LLAH::Extract(const MyImage &src)
