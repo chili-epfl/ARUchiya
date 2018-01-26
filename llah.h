@@ -57,7 +57,7 @@ public:
 
     // returns image coordinates of dots
     // which belong to markers
-    QVector<QVector2D> foundDots();
+    QVector<QVector2D> foundDots(bool return_all = false);
 private:
 	MyLabel m_label;
 	LLAHParam m_param;

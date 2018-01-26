@@ -282,7 +282,7 @@ void LLAH::Init(const int iw, const int ih)
 	m_bloblist.Init(iw,ih,10);
 }
 
-QVector<QVector2D> LLAH::foundDots()
+QVector<QVector2D> LLAH::foundDots(bool return_all)
 {
     // resulting QVector
     QVector<QVector2D> result;
@@ -293,7 +293,7 @@ QVector<QVector2D> LLAH::foundDots()
 
     // loop over all blobs
     for(it = blobs->begin(); it != blobs->end(); it++)
-        if((*it)->found)
+        if((*it)->found || return_all)
             // adding found blobs
             result.append(QVector2D((*it)->rawx, (*it)->rawy));
 
